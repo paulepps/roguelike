@@ -3,17 +3,13 @@
 import java.awt.Rectangle;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 public class Boss extends Enemy{
 
   private Screen screen;
   private int timer = 0;
-  private float initX;
-  private float initY;
   private int action = -1;
   private int movement;
-  private boolean dead = false;
   private int knockbackTimer = 0;
   private boolean leftWall = false;
   private boolean rightWall = false;
@@ -29,8 +25,6 @@ public class Boss extends Enemy{
   public Boss(float x, float y, String id, Handler handler, Screen screen){
     super(x, y, id, handler, 300);
     this.screen = screen;
-    initX = x;
-    initY = y;
 
     movement = (int)(Math.random()*4); //randomizes initial movment
 

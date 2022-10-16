@@ -1,13 +1,8 @@
- 
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Graphics2D;
 
 public class Trapdoor extends GameThing {
-
-  private Texture tex = Main.getInstance();
 
   public Trapdoor (float x, float y, String id){
     super(x, y, id);

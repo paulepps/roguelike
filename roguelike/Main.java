@@ -1,42 +1,40 @@
-
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 import java.util.ArrayList;
+import java.util.Objects;
+
+import javax.imageio.ImageIO;
 
 public class Main extends Canvas implements Runnable{
 
+	@Serial
 	private static final long serialVersionUID = 4934146021504066469L;
 
 	private Thread thread;
 	private boolean running = false;
-	private Handler handler;
-	private Screen screen;
+	private final Handler handler;
+	private final Screen screen;
 	public static int WIDTH = 800;
 	public static int HEIGHT = 800;
 	private BufferedImage level = null;
-	private BufferedImageLoader loader = new BufferedImageLoader();
-	private ArrayList <RoomPoint> points = new ArrayList <RoomPoint> ();
-    private ArrayList <Vector> vectors = new ArrayList <Vector> ();
-	private Camera cam;
-	private Player player;
+	private final ArrayList <RoomPoint> points = new ArrayList<>();
+    private final ArrayList <Vector> vectors = new ArrayList<>();
+	private final Camera cam;
 	public static Texture tex;
-	private Graphics g;
-	private Graphics2D g2d;
 	private String state = "menu";
-	private int numWeapons = 12;
-	private int numPowerups = 6;
+	private final int numWeapons = 12;
+	private final int numPowerups = 6;
 	private boolean levelCleared = false;
 	private int w;
 	private int h;
 	private int currentLevel;
 	private int itemRoomIndex = 0;
-	private Window window;
-	private int numRooms = 62;
+	private final Window window;
 	public static Sound sound;
 
 	/*instantiate all variables and stuff and run all level creation stuff*/
@@ -54,7 +52,7 @@ public class Main extends Canvas implements Runnable{
 		this.addKeyListener(new KeyInput(handler, screen, this)); //adds a listener of key input
 		this.addMouseListener(screen); //add listener of mouse input
 
-		player = new Player(400,400,"Player", 0, handler, this, screen); //create player and spawn in first room
+		Player player = new Player(400, 400, "Player", 0, handler, this, screen); //create player and spawn in first room
 		handler.addObject(player); //add player to the list of objects
 
 		sound.loop("background"); //start the background music
@@ -123,7 +121,9 @@ public class Main extends Canvas implements Runnable{
 			for (int i=0; i<handler.stuff.size(); i++){ //iterates through the object handler
 				GameThing thing = handler.stuff.get(i);
 				if (thing.getId().equals("Player")){
-					cam.tick(thing); //tick the camera after passing the player object into the camera class
+					if (cam != null) {
+						cam.tick(thing); //tick the camera after passing the player object into the camera class
+					}
 				}
 			}
 			screen.tick(); //tick the screen
@@ -139,8 +139,8 @@ public class Main extends Canvas implements Runnable{
 			this.createBufferStrategy(2);
 			return;
 		}
-		g = bs.getDrawGraphics(); //instantiate the graphics variable
-		g2d = (Graphics2D)g;
+		Graphics g = bs.getDrawGraphics(); //instantiate the graphics variable
+		Graphics2D g2d = (Graphics2D) g;
 
 		//set background color based on level
 		if (state.equals("1") || currentLevel == 1) g.setColor(new Color(239, 172, 117));
@@ -288,28 +288,28 @@ public class Main extends Canvas implements Runnable{
 		for (int xx = 0; xx < w; xx++){
 			for (int yy = 0; yy < h; yy++){
 				if (xx==11 && yy==0 && doors[0] != 0){
-					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 1, 2, doors[0]));
+					handler.addObject(new Door(xx*33 + WIDTH*dx, HEIGHT*dy, "Door", 1, 2, doors[0]));
 				}
 				else if (xx==12 && yy==0 && doors[0] != 0){
-					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 1, 4, doors[0]));
+					handler.addObject(new Door(xx*33 + WIDTH*dx, HEIGHT*dy, "Door", 1, 4, doors[0]));
 				}
 				else if (xx==23 && yy==11 && doors[1] != 0){
-					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 2, 3, doors[1]));
+					handler.addObject(new Door(xx*33 + WIDTH*dx, HEIGHT*dy, "Door", 2, 3, doors[1]));
 				}
 				else if (xx==23 && yy==12 && doors[1] != 0){
-					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 2, 1, doors[1]));
+					handler.addObject(new Door(xx*33 + WIDTH*dx, HEIGHT*dy, "Door", 2, 1, doors[1]));
 				}
 				else if (xx==11 && yy==23 && doors[2] != 0){
-					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 3, 2, doors[2]));
+					handler.addObject(new Door(xx*33 + WIDTH*dx, HEIGHT*dy, "Door", 3, 2, doors[2]));
 				}
 				else if (xx==12 && yy==23 && doors[2] != 0){
 					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 3, 4, doors[2]));
 				}
 				else if (xx==0 && yy==11 && doors[3] != 0){
-					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 4, 3, doors[3]));
+					handler.addObject(new Door(WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 4, 3, doors[3]));
 				}
 				else if (xx==0 && yy==12 && doors[3] != 0){
-					handler.addObject(new Door(xx*33 + WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 4, 1, doors[3]));
+					handler.addObject(new Door(WIDTH*dx, yy*32 + HEIGHT*dy, "Door", 4, 1, doors[3]));
 				}
 			}
 		}
@@ -329,35 +329,35 @@ public class Main extends Canvas implements Runnable{
 	/*returns a random weapon name*/
 	public String chooseWeapon(){
 		int weaponChoice = (int)(Math.random()*numWeapons);
-		switch(weaponChoice){
-    		case 0: return "smg";
-    		case 1: return "sniper";
-    		case 2: return "assault rifle";
-    		case 3: return "DMR";
-    		case 4: return "slugshot";
-    		case 5: return "minigun";
-    		case 6: return "revolver";
-    		case 7: return "pump shotgun";
-    		case 8: return "tac shotgun";
-    		case 9: return "mauler";
-        case 10: return "grenade launcher";
-				case 11: return "rainmaker";
-        default: return "";
-      }
+		return switch (weaponChoice) {
+			case 0 -> "smg";
+			case 1 -> "sniper";
+			case 2 -> "assault rifle";
+			case 3 -> "DMR";
+			case 4 -> "slugshot";
+			case 5 -> "minigun";
+			case 6 -> "revolver";
+			case 7 -> "pump shotgun";
+			case 8 -> "tac shotgun";
+			case 9 -> "mauler";
+			case 10 -> "grenade launcher";
+			case 11 -> "rainmaker";
+			default -> "";
+		};
 	}
 
 	/*returns a random powerup name*/
 	public String choosePowerup(){
 		int powerupChoice = (int)(Math.random()*numPowerups);
-		switch(powerupChoice){
-       		case 0: return "health pack";
-       		case 1: return "damage boost";
-       		case 2: return "speed boost";
-       		case 3: return "defense boost";
-        	case 4: return "fire rate boost";
-        	case 5: return "accuracy boost";
-        	default: return "";
-        }
+		return switch (powerupChoice) {
+			case 0 -> "health pack";
+			case 1 -> "damage boost";
+			case 2 -> "speed boost";
+			case 3 -> "defense boost";
+			case 4 -> "fire rate boost";
+			case 5 -> "accuracy boost";
+			default -> "";
+		};
 	}
 
 	/*
@@ -387,14 +387,31 @@ public class Main extends Canvas implements Runnable{
 			i++;
 			int [] doors = getDoors(point); //returns the value of the doors present at each side
 			if (i == 1){ //create starting room
-				level = loader.loadImage("assets/room0.png"); //loads the image with the current file name
+				// level = loader.loadImage("assets/room0.png"); //loads the image with the current file name
+				try {
+					level = ImageIO.read(getClass().getResource("/assets/room0.png"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			else if (i == points.size()){ //create boss room at final point
-				level = loader.loadImage("assets/roomwin.png");
+				// level = loader.loadImage("assets/roomwin.png");
+				try {
+					level = ImageIO.read(getClass().getResource("/assets/roomwin.png"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			else { //create random room from list of rooms
-				int roomNum = (int)(Math.random()*numRooms) + 1;
-				level = loader.loadImage("assets/room" + roomNum + ".png");
+				int numRooms = 62;
+				int roomNum = (int)(Math.random()* numRooms) + 1;
+				// level = loader.loadImage("assets/room" + roomNum + ".png");
+				try {
+					level = ImageIO.read(Objects.requireNonNull(getClass().getResource("/assets/room" + roomNum + ".png")));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 			LoadImageLevel(level, point.getX(), -point.getY(), doors); //load level with information gathered
 		}
@@ -418,7 +435,12 @@ public class Main extends Canvas implements Runnable{
 			if (numDoors == 1 && !levelCleared && !point.isPoint(0,0) && !point.isPoint(points.get(points.size()-1))){
 				clearLevel(point.getX(), point.getY()); //clears whatever is at the current point
 				levelCleared = true;
-				level = loader.loadImage("assets/roomItem" + (index+1) + ".png"); //generates item room based off door location
+				try {
+					level = ImageIO.read(Objects.requireNonNull(getClass().getResource("/assets/roomItem" + (index + 1) + ".png"))); //generates item room based off door location
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				doors[index] = 3; //sets the inside door to a green door
 				RoomPoint temp;
 				for (Vector vector: vectors){
@@ -465,9 +487,10 @@ public class Main extends Canvas implements Runnable{
       RoomPoint point = new RoomPoint(A.getX()+dx, A.getY()+dy);
       boolean found = false;
       for (RoomPoint point2: points){ //finds if point already present
-        if (point2.getX() == point.getX() && point2.getY() == point.getY()){
-          found = true;
-        }
+		  if (point2.getX() == point.getX() && point2.getY() == point.getY()) {
+			  found = true;
+			  break;
+		  }
       }
       if (!found){ //add if not already found
         points.add(point);
@@ -483,8 +506,8 @@ public class Main extends Canvas implements Runnable{
 			if (vector.isVector(new Vector(A, points.get(points.size()-1)))){ //change to red door if boss room (endpoint)
 				doorType = 2;
 			}
-			int dx = 0;
-			int dy = 0;
+			int dx;
+			int dy;
 			//add doors based on the change in x or change in y of the vector (changes value of door from 0)
 			if (vector.hasPoint(A) == 1){
 				dx = vector.getDX();
@@ -564,14 +587,6 @@ public class Main extends Canvas implements Runnable{
 	public static void main(String [] args){
 		new Main();
 		//nothing else should go here
-	}
-
-	public int getNumWeapons(){
-		return numWeapons;
-	}
-
-	public int getNumPowerups(){
-		return numPowerups;
 	}
 
 	public static Sound getSound(){

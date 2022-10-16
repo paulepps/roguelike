@@ -5,12 +5,12 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Cursor;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Window extends Canvas{
 
 	private static final long serialVersionUID = -610221877235495921L;
-	private BufferedImageLoader loader = new BufferedImageLoader();
 	private String state = "menu";
 	private JFrame frame;
 	private Main main;
@@ -39,7 +39,13 @@ public class Window extends Canvas{
 	/*if the player isn't in the menu, clear the current cursor*/
 	public void tick(){
 		state = main.getState();
-		if (!state.equals("menu") && !state.equals("pause") && !state.equals("death"))frame.setCursor(frame.getToolkit().createCustomCursor(loader.loadImage("assets/blank.png"), new Point(), null));
-    else frame.setCursor(Cursor.getDefaultCursor());
+		if (!state.equals("menu") && !state.equals("pause") && !state.equals("death"))
+			try {
+				frame.setCursor(frame.getToolkit().createCustomCursor(ImageIO.read(getClass().getResource("assets/blank.png")), new Point(), null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	    else 
+			frame.setCursor(Cursor.getDefaultCursor());
 	}
 }

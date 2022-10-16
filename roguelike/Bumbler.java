@@ -11,12 +11,10 @@ public class Bumbler extends Enemy{
   private float tempVelY;
   private float tempVel;
   private float angle;
-  private Screen screen;
 
   public Bumbler(float x, float y, String id, Handler handler, Screen screen){
     super(x, y, id, handler, 25);
-    this.screen = screen;
-
+    
     //get initial velocity and random angle and set speed
     angle = (float)(((Math.random()*2)-1)*2*Math.PI);
     tempVelX = (float)(Math.cos((double)angle));

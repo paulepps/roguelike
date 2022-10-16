@@ -1,13 +1,9 @@
- 
-
 import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Color;
 
 public class Shooter extends Enemy{
 
-  private Screen screen;
   private float sx;
   private float sy;
   private int timer = 100;
@@ -17,7 +13,6 @@ public class Shooter extends Enemy{
 
   public Shooter (float x, float y, String id, Handler handler, Screen screen){
     super(x, y, id, handler, 40);
-    this.screen = screen;
     timer = (int)(Math.random()*51)+1; //random timer start point
 
     width = 24;

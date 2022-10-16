@@ -1,8 +1,5 @@
- 
-
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Color;
 
 public class Chicken extends Enemy{
 

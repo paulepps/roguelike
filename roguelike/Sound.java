@@ -15,7 +15,7 @@ public class Sound {
 
   public Sound(){
     //put files into a map with its title and file associated with it
-    files.put("background", new File("sounds/background.wav"));
+    files.put("background", new File("/sounds/background.wav"));
     files.put("background2", new File("sounds/background2.wav"));
     files.put("background3", new File("sounds/background3.wav"));
     files.put("background4", new File("sounds/background4.wav"));
@@ -25,7 +25,7 @@ public class Sound {
     files.put("shotgun2", new File("sounds/shotgun2.wav"));
     files.put("dmr", new File("sounds/dmr.wav"));
     files.put("assault rifle", new File("sounds/assault_rifle.wav"));
-    files.put("pistol", new File("sounds/pistol.wav"));
+    files.put("pistol", new File("/sounds/pistol.wav"));
     files.put("revolver", new File("sounds/revolver.wav"));
     files.put("minigun", new File("sounds/minigun.wav"));
   }
@@ -34,12 +34,12 @@ public class Sound {
   public void loop(String path){
     try{
       if (background != null) background.stop(); //stop the old background music
-      background = AudioSystem.getClip();
-      background.open(AudioSystem.getAudioInputStream(files.get(path))); //open new background music
-      FloatControl gainControl = (FloatControl) background.getControl(FloatControl.Type.MASTER_GAIN);
-      background.loop(Clip.LOOP_CONTINUOUSLY); //loop audio continuously
-      float dB = (float) (Math.log(backgroundVolume) / Math.log(10.0) * 20.0); //control volume
-      gainControl.setValue(dB);
+      // background = AudioSystem.getClip();
+      // background.open(AudioSystem.getAudioInputStream(files.get(path))); //open new background music
+      // FloatControl gainControl = (FloatControl) background.getControl(FloatControl.Type.MASTER_GAIN);
+      // background.loop(Clip.LOOP_CONTINUOUSLY); //loop audio continuously
+      // float dB = (float) (Math.log(backgroundVolume) / Math.log(10.0) * 20.0); //control volume
+      // gainControl.setValue(dB);
       //Thread.sleep(clip.getMicrosecondLength()/1000);
     }catch (Exception e){
       e.printStackTrace();

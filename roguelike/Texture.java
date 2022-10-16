@@ -1,6 +1,6 @@
-
-
 import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 public class Texture {
   //inititalizes spritesheet classes
@@ -27,17 +27,16 @@ public class Texture {
   public BufferedImage[] sound_button = new BufferedImage[4];
 
   public Texture(){
-    BufferedImageLoader loader = new BufferedImageLoader();
     //loads images
     try {
-      block_sheet = loader.loadImage("assets/block_sheet.png");
-      player_sheet = loader.loadImage("assets/player_sheet.png");
-      enemy_sheet = loader.loadImage("assets/enemy_sheet.png");
-      weapon_sheet = loader.loadImage("assets/weapon_sheet.png");
-      blank_weapon_sheet = loader.loadImage("assets/blank_weapon_sheet.png");
-      powerup_sheet = loader.loadImage("assets/powerup_sheet.png");
-      core_item_sheet = loader.loadImage("assets/core_item_sheet.png");
-      sound_button_sheet = loader.loadImage("assets/sound_button_sheet.png");
+      block_sheet = ImageIO.read(getClass().getResource("/assets/block_sheet.png"));
+      player_sheet = ImageIO.read(getClass().getResource("/assets/player_sheet.png"));
+      enemy_sheet = ImageIO.read(getClass().getResource("assets/enemy_sheet.png"));
+      weapon_sheet = ImageIO.read(getClass().getResource("assets/weapon_sheet.png"));
+      blank_weapon_sheet = ImageIO.read(getClass().getResource("assets/blank_weapon_sheet.png"));
+      powerup_sheet = ImageIO.read(getClass().getResource("assets/powerup_sheet.png"));
+      core_item_sheet = ImageIO.read(getClass().getResource("assets/core_item_sheet.png"));
+      sound_button_sheet = ImageIO.read(getClass().getResource("assets/sound_button_sheet.png"));
     }catch (Exception e){
       e.printStackTrace();
     }

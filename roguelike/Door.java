@@ -1,13 +1,9 @@
- 
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Graphics2D;
 
 public class Door extends GameThing{
 
-  private int type;
   private int openType;
   private int doorType;
   private boolean open = false;
@@ -15,7 +11,6 @@ public class Door extends GameThing{
 
   public Door(float x, float y, String id, int type, int openType, int doorType){
     super(x, y, id);
-    this.type = type;
     this.openType = openType;
     this.doorType = doorType;
 

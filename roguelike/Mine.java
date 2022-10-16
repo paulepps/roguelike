@@ -8,14 +8,12 @@ public class Mine extends GameThing{
 
   private Chicken chicken;
   private Handler handler;
-  private Screen screen;
   private int timer = 0;
 
   public Mine(float x, float y, String id, Handler handler, Chicken chicken, Screen screen){
     super(x, y, id);
     this.chicken = chicken;
     this.handler = handler;
-    this.screen = screen;
 
     width = 12;
     height = 12;

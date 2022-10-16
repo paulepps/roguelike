@@ -1,6 +1,3 @@
-
-
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Graphics2D;
@@ -15,7 +12,6 @@ public class Player extends GameThing{
 	private float totalHp = hp;
 	private int iFrames = 100;
 	private int iTimer = 0;
-	private boolean invincible = false;
 	private boolean restarted = false;
 
 	private Texture tex = Main.getInstance();
@@ -202,10 +198,6 @@ public class Player extends GameThing{
 		//controls iFrames
 		if (iTimer != 0){
 			iTimer--;
-			invincible = true;
-		}
-		else {
-			invincible = false;
 		}
 	}
 

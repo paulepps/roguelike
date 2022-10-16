@@ -1,19 +1,13 @@
- 
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Graphics2D;
-import java.util.Random;
 
 public class Pouncer extends Enemy{
 
-  private Screen screen;
 	private int randTimer = 0;
 	private int [] imperfections = new int [2];
   private int timer = 0;
 
-	private Texture tex = Main.getInstance();
 
   /*
     pouncers are exactly like chasers but their speed
@@ -23,7 +17,6 @@ public class Pouncer extends Enemy{
 
   public Pouncer(float x, float y, String id, Handler handler, Screen screen) {
     super(x, y, id, handler, 15);
-    this.screen = screen;
     timer = (int)(Math.random()*11) + 1;
 
     width = 28;

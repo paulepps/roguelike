@@ -7,7 +7,6 @@ import java.awt.Color;
 
 public class Grenade extends GameThing{
 
-  private Chicken chicken;
   private Handler handler;
   private int timer = 0;
   private int range;

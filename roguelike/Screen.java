@@ -5,6 +5,9 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
@@ -51,13 +54,11 @@ public class Screen extends MouseAdapter{
 
     //lists
     private ArrayList <Weapon> weapons = new ArrayList <Weapon> ();
-    private ArrayList <Integer> ammo = new ArrayList <Integer> ();
 
     //flags
     private boolean firing = false;
     private boolean reloading = false;
     private boolean pickupAlertFlag = false;
-    private boolean doorFlag = false;
     private boolean doorsUnlocked = false;
     private boolean powerupFlag = false;
     private boolean weaponGUIFlag = false;
@@ -74,16 +75,12 @@ public class Screen extends MouseAdapter{
     //mods
     private float damageMod = 1;
     private float speedMod = 1;
-    private float fireDelayMod = 1;
-    private float magazineMod = 1;
-    private float reloadTimeMod = 1;
     private float accuracyMod = 1;
     private float defenseMod = 1;
     private float fireRateMod = 1;
 
     //etc.
     private String lastAddedWeapon = "";
-    private BufferedImageLoader loader;
     private RoomPoint room = null;
     private RoomPoint tempRoom = null;
     private boolean movement = true;
@@ -108,7 +105,6 @@ public class Screen extends MouseAdapter{
         this.main = main;
         this.cam = cam;
 
-        loader = new BufferedImageLoader();
         points = main.getPoints();
         vectors = main.getVectors();
 
@@ -539,7 +535,12 @@ public class Screen extends MouseAdapter{
             g.setColor(new Color(36,123,160));
             g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(loader.loadImage("assets/start_button.png"), 305, 340, null);
+            try {
+                g2d.drawImage(ImageIO.read(getClass().getResource("/assets/start_button.png")), 305, 340, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        
             return;
         }
 
@@ -563,7 +564,11 @@ public class Screen extends MouseAdapter{
 
         //render weapon GUI
         if (mouseOver(mx, my, 600, 650, 180, 108) || weaponGUIFlag) g2d.setComposite(ac3);
-        g2d.drawImage(loader.loadImage("assets/weaponGUI.png"), 600, 650, 180, 108, null);
+        try {
+            g2d.drawImage(ImageIO.read(getClass().getResource("assets/weaponGUI.png")), 600, 650, 180, 108, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (weapon != null){
             g2d.drawImage(tex.weapon[weapon.getType()], 612, 662, 72, 72, null); //draw equipped weapon
         }
@@ -617,7 +622,7 @@ public class Screen extends MouseAdapter{
         minY *= mapSize;
         xd = maxX-minX+mapSize;
         yd = maxY-minY+mapSize;
-        int i = 0;
+
         if (mouseOver(mx, my, 730-xd-5+mapSize, 45-5, xd+10, yd+10) || mapFlag) g2d.setComposite(ac3);
         g2d.setColor(Color.WHITE);
         g2d.fillRect(730-xd-5+mapSize, 45-5, xd+10, yd+10);
@@ -634,12 +639,15 @@ public class Screen extends MouseAdapter{
             }
             g2d.setColor(Color.BLACK);
             g2d.drawRect(mapSize*point.getX() + 730 - maxX, -mapSize*point.getY() + maxY + 45, mapSize, mapSize);
-            i++;
         }
         g2d.setComposite(ac);
 
         //render cursor image
-        g.drawImage(loader.loadImage("assets/cursor.png"), mx-8, my-8, null);
+        try{
+            g.drawImage(ImageIO.read(getClass().getResource("assets/cursor.png")), mx-8, my-8, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (main.getState().equals("pause")) {
           g.setColor(new Color(0, 0, 0, 150));

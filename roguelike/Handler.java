@@ -1,7 +1,4 @@
- 
-
 import java.awt.Graphics;
-import java.util.LinkedList; // <--- never use this they stink
 import java.util.ArrayList;
 
 public class Handler {

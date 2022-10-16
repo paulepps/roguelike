@@ -1,20 +1,13 @@
- 
-
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Graphics2D;
-import java.util.Random;
 
 public class Chaser extends Enemy{
 
-  private Screen screen;
 	private int randTimer = 0;
 	private int [] imperfections = new int [2];
 
   public Chaser(float x, float y, String id, Handler handler, Screen screen) {
     super(x, y, id, handler, 20);
-    this.screen = screen;
 
     width = 28;
     height = 28;
